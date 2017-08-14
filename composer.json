@@ -1,16 +1,24 @@
 {
-    "name": "thesebas/php-mongodb-helpers",
-    "type": "library",
-    "autoload": {
-        "psr-4": {
-            "Thesebas\\MongoDB\\Helpers\\": "lib/"
-        },
-        "files": [
-            "lib/Aggregation/Pipeline.php"
-        ]
+  "name": "thesebas/php-mongodb-helpers",
+  "type": "library",
+  "description": "MongoDB php helpers to build queries",
+  "autoload": {
+    "psr-4": {
+      "Thesebas\\MongoDB\\Helpers\\": "lib/"
     },
-    "require": {},
-    "require-dev": {
-        "phpunit/phpunit": "^6.0"
-    }
+    "files": [
+      "lib/Aggregation/Pipeline.php",
+      "lib/Aggregation/ArrayOperator.php",
+      "lib/Aggregation/Boolean.php",
+      "lib/Aggregation/Arithmetic.php",
+      "lib/Aggregation/Comparison.php",
+      "lib/Misc.php"
+    ]
+  },
+  "require": {
+    "php": "5.6"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^6.0"
+  }
 }

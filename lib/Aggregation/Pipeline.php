@@ -1,6 +1,6 @@
 <?php
 
-namespace Thesebas\MongoDB\Helpers\Aggregation;
+namespace Thesebas\MongoDB\Helpers\Aggregation\Pipeline;
 
 const SORT = '$sort';
 const PROJECT = '$project';
@@ -26,8 +26,21 @@ function group($groupBy, $fields) {
     return [GROUP => ['_id' => $groupBy] + $fields];
 }
 
-function unwind($field) {
-    return [UNWIND => $field];
+function unwind($path, $includeArrayIndex = null, $preserveNullAndEmptyArrays = null) {
+    if (is_null($includeArrayIndex) && is_null($preserveNullAndEmptyArrays)) {
+        return [UNWIND => $path];
+    } else {
+        $op = [
+            'path' => $path
+        ];
+        if (!is_null($includeArrayIndex)) {
+            $op['includeArrayIndex'] = $includeArrayIndex;
+        }
+        if (!is_null($preserveNullAndEmptyArrays)) {
+            $op['preserveNullAndEmptyArrays'] = $preserveNullAndEmptyArrays;
+        }
+        return $op;
+    }
 }
 
 function limit($number) {
