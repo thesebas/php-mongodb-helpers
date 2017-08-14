@@ -7,6 +7,7 @@ use function Thesebas\MongoDB\Helpers\Aggregation\Arithmetic\add;
 use function Thesebas\MongoDB\Helpers\Aggregation\ArrayOperator\filter;
 use function Thesebas\MongoDB\Helpers\Aggregation\ArrayOperator\reduce;
 use function Thesebas\MongoDB\Helpers\Aggregation\Comaprison\eq;
+use function Thesebas\MongoDB\Helpers\Aggregation\Pipeline\project;
 use function Thesebas\MongoDB\Helpers\Misc\path;
 use function Thesebas\MongoDB\Helpers\Misc\variable;
 
@@ -24,24 +25,31 @@ class MixedTest extends TestCase {
         $sumField = 'def';
 
 
-        $expected = ['$reduce' => [
-            'input' => ['$filter' => [
-                'input' => '$' . join('.', $arrayField),
-                'as' => 'tmp',
-                'cond' => ['$eq' => ["\$\$tmp." . join('.', $filterField), $filterValue]]
-            ]],
-            'initialValue' => 0,
-            'in' => [
-                '$add' => ['$$value', '$$this.' . $sumField]
-            ]
-
+        $expected = ['$project' => [
+            'field' => ['$reduce' => [
+                'input' => ['$filter' => [
+                    'input' => '$' . join('.', $arrayField),
+                    'as' => 'tmp',
+                    'cond' => ['$eq' => ["\$\$tmp." . join('.', $filterField), $filterValue]]
+                ]],
+                'initialValue' => 0,
+                'in' => [
+                    '$add' => ['$$value', '$$this.' . $sumField]
+                ]
+            ]]
         ]];
 
-        $actual = reduce(
-            filter(path(...$arrayField), 'tmp', eq(variable("tmp", ...$filterField), $filterValue)),
-            0,
-            add(variable('value'), variable("this", $sumField))
-        );
+        $actual = project([
+            'field' => reduce(
+                filter(
+                    path(...$arrayField),
+                    'tmp',
+                    eq(variable("tmp", ...$filterField), $filterValue)
+                ),
+                0,
+                add(variable('value'), variable("this", $sumField))
+            )
+        ]);
 
 
         $this->assertEquals($expected, $actual, 'should be the same');
