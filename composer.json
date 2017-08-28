@@ -12,6 +12,8 @@
       "lib/Aggregation/Boolean.php",
       "lib/Aggregation/Arithmetic.php",
       "lib/Aggregation/Comparison.php",
+      "lib/Aggregation/Group.php",
+      "lib/Query/Element.php",
       "lib/Misc.php"
     ]
   },

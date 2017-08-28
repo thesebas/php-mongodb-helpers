@@ -1,6 +1,6 @@
 <?php
 
-namespace Thesebas\MongoDB\Helpers\Aggregation\Comaprison;
+namespace Thesebas\MongoDB\Helpers\Aggregation\Comparison;
 
 const CMP = '$cmp';
 const EQ = '$eq';
