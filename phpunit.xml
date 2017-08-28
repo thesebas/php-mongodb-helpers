@@ -6,7 +6,7 @@
     convertNoticesToExceptions="false"
     convertWarningsToExceptions="false"
     stopOnFailure="false"
-    bootstrap="./test/bootstrap.php"
+    bootstrap="./tests/bootstrap.php"
     strict="true"
     verbose="true"
     syntaxCheck="true">
