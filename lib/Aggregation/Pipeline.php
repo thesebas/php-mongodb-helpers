@@ -45,7 +45,7 @@ function project($projection) {
 }
 
 function addFields($fields) {
-    return [PROJECT => $fields];
+    return [ADD_FIELDS => $fields];
 }
 
 function group($groupBy, $fields) {
@@ -69,7 +69,7 @@ function unwind($path, $includeArrayIndex = null, $preserveNullAndEmptyArrays = 
         if (!is_null($preserveNullAndEmptyArrays)) {
             $op['preserveNullAndEmptyArrays'] = $preserveNullAndEmptyArrays;
         }
-        return $op;
+        return [UNWIND => $op];
     }
 }
 

@@ -1,6 +1,6 @@
 <?php
 
-
+namespace Thesebas\MongoDB\Helpers\Tests;
 use PHPUnit\Framework\TestCase;
 
 use Thesebas\MongoDB\Helpers\Aggregation\Arithmetic;
@@ -61,32 +61,32 @@ class MixedTest extends TestCase {
      */
     public function complex2() {
 
-        $expected = <<<END
+        $expected = <<<'END'
 
   {
-    "\$facet": {
+    "$facet": {
       "categorizedByTags": [
-        { "\$unwind": "\$tags" },
-        { "\$sortByCount": "\$tags" }
+        { "$unwind": "$tags" },
+        { "$sortByCount": "$tags" }
       ],
       "categorizedByPrice": [
-        { "\$match": { "price": { "\$exists": 1 } } },
+        { "$match": { "price": { "$exists": 1 } } },
         {
-          "\$bucket": {
-            "groupBy": "\$price",
+          "$bucket": {
+            "groupBy": "$price",
             "boundaries": [  0, 150, 200, 300, 400 ],
             "default": "Other",
             "output": {
-              "count": { "\$sum": 1 },
-              "titles": { "\$push": "\$title" }
+              "count": { "$sum": 1 },
+              "titles": { "$push": "$title" }
             }
           }
         }
       ],
       "categorizedByYears(Auto)": [
         {
-          "\$bucketAuto": {
-            "groupBy": "\$year",
+          "$bucketAuto": {
+            "groupBy": "$year",
             "buckets": 4
           }
         }
