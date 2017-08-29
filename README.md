@@ -1,5 +1,5 @@
 # php-mongodb-helpers
-MongoDB php helpers to build queries. ![BUILD STATUS](https://api.travis-ci.org/thesebas/php-mongodb-helpers.svg?branch=master)
+MongoDB php helpers to build queries. ![BUILD STATUS](https://api.travis-ci.org/thesebas/php-mongodb-helpers.svg?branch=master) [![Coverage Status](https://coveralls.io/repos/github/thesebas/php-mongodb-helpers/badge.svg)](https://coveralls.io/github/thesebas/php-mongodb-helpers)
 
 Write this:
 ```php

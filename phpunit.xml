@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <phpunit
+    processIsolation="true"
     colors="true"
     convertErrorsToExceptions="false"
     convertNoticesToExceptions="false"
@@ -19,13 +20,18 @@
 
     </testsuites>
 
-    <!--filter>
+    <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">./lib/</directory>
         </whitelist>
-    </filter-->
+    </filter>
+    
+    <logging>
+        <log type="testdox-text" target="php://stdout"/>
+        <log type="coverage-clover" target="build/logs/clover.xml"/>
+        <log type="coverage-html" target="build/coverage"/>
+        <log type="coverage-text" target="php://stdout" showUncoveredFiles="true"/>
+    </logging>
 
-    <log type="coverage-clover" target="build/logs/clover.xml"/>
-    <log type="coverage-text" target="php://stdout" showUncoveredFiles="false"/>
 
 </phpunit>
