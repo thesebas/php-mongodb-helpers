@@ -45,7 +45,7 @@ function project($projection) {
 }
 
 function addFields($fields) {
-    return [PROJECT => $fields];
+    return [ADD_FIELDS => $fields];
 }
 
 function group($groupBy, $fields) {

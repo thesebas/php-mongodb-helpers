@@ -3,8 +3,15 @@
 namespace Thesebas\MongoDB\Helpers\Tests\Aggregation;
 
 use PHPUnit\Framework\TestCase;
+use function Thesebas\MongoDB\Helpers\Aggregation\Pipeline\addFields;
 use const Thesebas\MongoDB\Helpers\Aggregation\Pipeline\BUCKET_AUTO_GRANULARITY_125;
 use function Thesebas\MongoDB\Helpers\Aggregation\Pipeline\bucketAuto;
+use function Thesebas\MongoDB\Helpers\Aggregation\Pipeline\group;
+use function Thesebas\MongoDB\Helpers\Aggregation\Pipeline\limit;
+use function Thesebas\MongoDB\Helpers\Aggregation\Pipeline\out;
+use function Thesebas\MongoDB\Helpers\Aggregation\Pipeline\project;
+use function Thesebas\MongoDB\Helpers\Aggregation\Pipeline\sample;
+use function Thesebas\MongoDB\Helpers\Aggregation\Pipeline\skip;
 use function Thesebas\MongoDB\Helpers\Aggregation\Pipeline\unwind;
 use function Thesebas\MongoDB\Helpers\Misc\path;
 
@@ -178,5 +185,139 @@ END;
 
         $this->assertEquals(\json_decode($expected, true), $actual, 'should be the same');
 
+    }
+
+    /**
+     * @test
+     */
+    public function group() {
+
+        $expected = <<<'END'
+{
+    "$group":{
+        "_id": "$some.path",
+        "f1": "some_value"
+    }
+}
+END;
+
+        $actual = group('$some.path', ['f1' => 'some_value', '_id' => 'should-be-overriden']);
+
+        $this->assertEquals(\json_decode($expected, true), $actual, 'should be the same');
+
+    }
+
+    /**
+     * @test
+     */
+    public function project() {
+        $expected = <<<'END'
+{
+    "$project":{
+        "f1": "some_value",
+        "f2": "other_value"
+    }
+}
+END;
+
+        $actual = project(['f1' => 'some_value', 'f2' => 'other_value']);
+
+        $this->assertEquals(\json_decode($expected, true), $actual, 'should be the same');
+    }
+
+    /**
+     * @test
+     */
+    public function addFields() {
+        $expected = <<<'END'
+{
+    "$addFields":{
+        "f1": "some_value",
+        "f2": "other_value"
+    }
+}
+END;
+
+        $actual = addFields(['f1' => 'some_value', 'f2' => 'other_value']);
+
+        $this->assertEquals(\json_decode($expected, true), $actual, 'should be the same');
+    }
+
+    /**
+     * @test
+     */
+    public function sort() {
+        $expected = <<<'END'
+{
+    "$sort": {
+        "f1": 1,
+        "f2": -1
+    }
+}
+END;
+
+        $actual = \Thesebas\MongoDB\Helpers\Aggregation\Pipeline\sort(['f1' => 1, 'f2' => -1]);
+
+        $this->assertEquals(\json_decode($expected, true), $actual, 'should be the same');
+    }
+
+    /**
+     * @test
+     */
+    public function skip() {
+        $expected = <<<'END'
+{
+    "$skip": 5
+}
+END;
+
+        $actual = skip(5);
+
+        $this->assertEquals(\json_decode($expected, true), $actual, 'should be the same');
+    }
+
+    /**
+     * @test
+     */
+    public function limit() {
+        $expected = <<<'END'
+{
+    "$limit": 100
+}
+END;
+
+        $actual = limit(100);
+
+        $this->assertEquals(\json_decode($expected, true), $actual, 'should be the same');
+    }
+
+    /**
+     * @test
+     */
+    public function sample() {
+        $expected = <<<'END'
+{
+    "$sample": {"size": 100}
+}
+END;
+
+        $actual = sample(100);
+
+        $this->assertEquals(\json_decode($expected, true), $actual, 'should be the same');
+    }
+
+    /**
+     * @test
+     */
+    public function out() {
+        $expected = <<<'END'
+{
+    "$out": "collection_name"
+}
+END;
+
+        $actual = out('collection_name');
+
+        $this->assertEquals(\json_decode($expected, true), $actual, 'should be the same');
     }
 }
